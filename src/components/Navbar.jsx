@@ -1,5 +1,6 @@
 import React from 'react'
 import { Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
@@ -26,10 +27,12 @@ export const Navbar = () => {
             Contact
           </p>
 
-          <button className="text-white text-md border border-gray-700 px-6 py-2 rounded-3xl hover:border-purple-500 transition">
+         <Link to="/login">
+          <button className="text-white text-md border-2 border-gray-700 px-6 py-2 rounded-3xl hover:border-purple-500 transition" >
             Login
           </button>
-          <button className="bg-linear-to-r from-blue-600 to-purple-600 text-white text-md px-5 py-2 rounded-3xl hover:bg-purple-700 transition">
+         </Link>
+          <button className="font-semibold bg-[#3730A3] text-white text-md px-5 py-2 rounded-3xl">
             Get Started
           </button>
         </div>
