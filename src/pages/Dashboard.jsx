@@ -1,5 +1,7 @@
 import React from 'react'
 import {Sparkles ,Plus, Menu, X, Bell, CircleUserRound } from "lucide-react"; 
+import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
+import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip,} from "recharts";
 
 export const Dashboard = () => {
   return (
@@ -11,7 +13,7 @@ export const Dashboard = () => {
         <Sparkles className='w-6 h-6 text-purple-600' fill='currentColor'/>
         <h1 className='text-2xl font-bold text-white'> PrepWise AI</h1>
        </div>
-       <div className='flex gap-2 items-center'>
+       <div className='flex gap-2 items-center'> 
         <Bell className='w-5 h-5 mr-7'/>
         <CircleUserRound className="w-8 h-8 text-gray-300" />
         <h1>Sakshi</h1> 
@@ -30,6 +32,62 @@ export const Dashboard = () => {
                 Start New Interview
             </button> 
         </div> 
+      </div>
+
+      {/* cards */}
+      <div className="grid grid-cols-4 gap-4 text-white mt-5">
+        {dashboardStats.map((stat) => {
+         const Icon = stat.icon;
+         return (
+        <div className="py-2 px-6 bg-gray-900 rounded-2xl" key={stat.title}>
+         <Icon className={`w-6 h-6 ${stat.iconColor} mb-3`}/>
+         <p>{stat.title}</p>
+         <h2 className="font-bold text-2xl">{stat.value}</h2>
+        </div>
+        );
+        })}
+      </div> 
+
+      {/* main content */}
+      <div className='flex justify-between mt-5'>
+       {/* graph */}
+       <div className="bg-[#111827] rounded-xl p-4">
+        <div className="flex justify-between items-center mb-2">
+         <h2 className="text-white text-sm font-semibold">Performance Overview</h2>
+         <button className="text-xs text-gray-400 border border-gray-700 rounded-md px-2 py-1">
+          This Month
+         </button>
+       </div>
+       
+       <LineChart width={500} height={180} data={performanceData}
+        margin={{ top: 5, right: 10, left: -15, bottom: 0 }}>
+        <CartesianGrid vertical={false} stroke="#27324A" strokeDasharray="3 3"/>
+        <XAxis dataKey="month" tick={{ fill: "#64748B", fontSize: 10 }} axisLine={false} tickLine={false}/>
+        <YAxis domain={[0, 10]} ticks={[0, 2.5, 5, 7.5, 10]} tick={{ fill: "#64748B", fontSize: 10 }} axisLine={false} tickLine={false}/>
+        <Tooltip />
+        <Line type="monotone" dataKey="score" stroke="#8B5CF6" strokeWidth={2}
+          dot={{
+            r: 2.5,
+            fill: "#8B5CF6", 
+            strokeWidth: 0,
+          }}
+          activeDot={{
+           r: 4,
+          }}
+        />
+       </LineChart>
+      </div>
+
+       {/* history */}
+       <div>
+        {recentInterviews.map((interview) => (
+         <div key={interview.title}>
+          <h3>{interview.title}</h3>
+          <p>{interview.date}</p>
+          <span>{interview.score}</span>
+         </div>
+        ))}
+       </div>
       </div>
 
     </div>
