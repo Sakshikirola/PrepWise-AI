@@ -49,9 +49,9 @@ export const Dashboard = () => {
       </div> 
 
       {/* main content */}
-      <div className='flex justify-between mt-5'>
+      <div className='grid grid-cols-[1.5fr_1fr_1fr] gap-4 mt-5'>
        {/* graph */}
-       <div className="bg-[#111827] rounded-xl p-4">
+       <div className="bg-[#111827] rounded-xl p-4 w-full">
         <div className="flex justify-between items-center mb-2">
          <h2 className="text-white text-lg font-semibold">Performance Overview</h2>
          <button className="text-sm text-gray-400 border border-gray-700 rounded-md px-2 py-1">
@@ -79,7 +79,7 @@ export const Dashboard = () => {
       </div>
 
       {/* history */}
-      <div className='text-white bg-[#111827] rounded-xl p-4 w-90'>  
+      <div className='text-white bg-[#111827] rounded-xl p-4 w-full'>  
        <div className='flex justify-between items-center mb-4'>  
         <h1 className="text-white text-lg font-semibold">Recent Interviews</h1>  
         <p className='text-sm font-semibold text-purple-600 cursor-pointer'>View All</p>  
@@ -101,7 +101,7 @@ export const Dashboard = () => {
       </div>
 
       {/* short result */}
-       <div className='flex flex-col gap-4'> 
+       <div className='flex flex-col gap-4 w-full'> 
         <div className='text-white bg-[#111827] rounded-xl p-4'> 
         <div className='flex items-center gap-2 mb-2'>
          <CheckCircle className='w-5 h-5 text-green-500' />
