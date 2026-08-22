@@ -7,7 +7,7 @@ export const Hero = () => {
     <div className='h-auto md:h-90 px-6 md:px-12 flex flex-col md:flex-row justify-between mt-6 text-white'>
       {/* left section */}
       <div>
-        <div className='bg-gray-900 py-2 px-3 text-sm rounded-2xl inline-flex items-center gap-2'>
+        <div className='bg-[#0B1220] py-2 px-3 text-sm rounded-2xl inline-flex items-center gap-2'>
           <Sparkles className='w-4 h-4 text-purple-600' fill='currentColor'/>
           <p>AI-Powered Interview Preparation</p>
         </div>
@@ -17,7 +17,7 @@ export const Hero = () => {
         </h1>
         <p className='mt-5 text-gray-400 text-md'>
           Get AI-generated interview questions, smart feedback,
-        </p>
+        </p> 
         <p className='mt-1 text-gray-400 text-md'>
           and track your progress to ace your next interview.
         </p>
