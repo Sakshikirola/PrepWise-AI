@@ -28,3 +28,17 @@ export const interviewTypes = [
     description: "Practice logical reasoning, quantitative, and aptitude questions.",
   },
 ];
+
+export const experienceLevels = [
+  "Fresher",
+  "1-2 years",
+  "2-5 years",
+  "5+ years",
+];
+
+export const questionCounts = [
+  "10 Questions",
+  "20 Questions",
+  "30 Questions",
+  "50 Questions",
+];

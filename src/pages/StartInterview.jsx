@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import { ArrowLeft,ArrowRight, Search } from 'lucide-react'
-import { popularSearches, interviewTypes } from "./InterviewData";
+import { popularSearches, interviewTypes, experienceLevels, questionCounts } from "./InterviewData";
 
 export const StartInterview = () => {
 
   const [selectedType, setSelectedType] = useState("");
   const [selectedExperience, setSelectedExperience] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState(""); 
+
+  const handleStartInterview = () => {
+    if (!selectedType || !selectedExperience || !selectedQuestions) {
+      alert("Please select all interview options");
+      return;
+    }
+  };
 
   return (
     <div className='bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-hidden'>
@@ -47,7 +54,7 @@ export const StartInterview = () => {
        <h1 className='text-white text-xl font-semibold'>What do you want to practice?</h1>
        <div className="relative mt-2"> 
         <input type="text" placeholder="Search role, technology, or interview type..."
-        className="w-full bg-white/5 border border-gray-700 rounded-md px-3 py-2 pr-10 text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-purple-600"/>
+        className="w-full bg-[#111827]/20 border border-gray-700 rounded-md px-3 py-2 pr-10 text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-purple-600"/>
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"/>
        </div>
       </div> 
@@ -58,7 +65,7 @@ export const StartInterview = () => {
         <div className="flex flex-wrap gap-2 mt-2"> 
          {popularSearches.map((topic) => (
           <button key={topic}
-          className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
+          className="px-3 py-2 rounded-lg bg-[#111827]/20 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
            {topic}
           </button>
          ))}
@@ -72,7 +79,7 @@ export const StartInterview = () => {
          {interviewTypes.map((type) => (
           <div key={type.id} onClick={() => setSelectedType(selectedType === type.title ? "" : type.title)}
            className={`border rounded-xl p-4 py-2 text-white cursor-pointer transition ${
-            selectedType === type.title?"bg-[#3730A3] border-purple-500": "bg-white/5 border-gray-700 hover:border-purple-600"
+            selectedType === type.title?"bg-[#A78BFA]/20 border-purple-500": "bg-[#111827]/20 border-gray-700 hover:border-purple-600"
            }`}
           >
            <h2 className="font-semibold text-lg">{type.title}</h2>
@@ -85,43 +92,43 @@ export const StartInterview = () => {
       {/* Experience  */}
       <div className='mt-1'>
        <h1 className='text-white text-xl font-semibold'>Experience Level</h1>
-       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"> 
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           Fresher
+       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
+        {experienceLevels.map((level) => (
+        <button key={level}
+         onClick={() =>setSelectedExperience(
+          selectedExperience === level ? "" : level
+         )}
+         className={`px-3 py-2 rounded-lg border text-sm transition ${selectedExperience === level
+          ? "bg-[#A78BFA]/20 border-purple-500 text-white"
+          : "bg-[#111827]/20 border-gray-700 text-gray-400 hover:border-purple-600 hover:text-white"
+         }`}
+         >
+          {level}
         </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           1-2 years
-        </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           2-5 years
-        </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           5+ years
-        </button>
+        ))}
        </div>
       </div>
 
-      {/* questions  */}
+      {/* Questions */}
       <div className='mt-1'>
-       <h1 className='text-white text-xl font-semibold'>Number of Questions</h1>
-       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"> 
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           10 Questions
-        </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           20 Questions
-        </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           30 Questions
-        </button>
-        <button className="px-3 py-2 rounded-lg bg-white/5 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           50 Questions
-        </button>
-        </div>
-     </div>
-      
+       <h1 className='text-white text-xl font-semibold'>Number Of Questions</h1>
+       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
+         {questionCounts.map((count) => (
+          <button key={count}
+           onClick={() =>setSelectedQuestions(selectedQuestions === count ? "" : count)}
+           className={`px-3 py-2 rounded-lg border text-sm transition ${selectedQuestions === count
+            ? "bg-[#A78BFA]/20 border-purple-500 text-white"
+            : "bg-[#111827]/20 border-gray-700 text-gray-400 hover:border-purple-600 hover:text-white"
+           }`}
+          >
+           {count}
+          </button>
+         ))}
+       </div>
+      </div>
+
      <div className="w-full px-4 py-2 rounded-lg bg-[#3730A3] text-white text-sm flex gap-2 items-center justify-center font-bold mt-2">
-      <button className='text-lg'>Start Interview</button>
+      <button onClick={handleStartInterview} className='text-lg'>Start Interview</button>
       <ArrowRight/> 
      </div>
 
