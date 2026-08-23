@@ -3,6 +3,7 @@ import {Sparkles ,Plus, Menu, X, Bell, CircleUserRound, CheckCircle, CircleAlert
   PlayCircle, History, UserRound,Settings,LogOut} from "lucide-react"; 
 import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip, ResponsiveContainer} from "recharts";
+import { Link } from "react-router-dom";
 
 export const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); 
@@ -163,10 +164,12 @@ export const Dashboard = () => {
         <LayoutDashboard className="w-5 h-5 shrink-0" /> 
         <span>Dashboard</span> 
        </button> 
+       <Link to="/startInterview">
        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
         <PlayCircle className="w-5 h-5 shrink-0" /> 
         <span>Start Interview</span> 
        </button> 
+       </Link>
        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
         <History className="w-5 h-5 shrink-0" /> 
         <span>History</span> 
@@ -185,7 +188,7 @@ export const Dashboard = () => {
       <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
         <LogOut className="w-5 h-5 shrink-0" /> 
         <span>Logout</span> 
-      </button> 
+      </button>
      </div> 
     </div> 
     )}
