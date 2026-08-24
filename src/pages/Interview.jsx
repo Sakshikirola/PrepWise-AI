@@ -12,7 +12,7 @@ export const Interview = () => {
     "What is JSX in React?",
     "What is the difference between useState and useReducer?",
     "What is React Context API?",
-    "What is the purpose of keys in React lists?",
+    "What is the purpose of keys in React lists?", 
     "What is the difference between React and JavaScript?"
   ];
 
@@ -43,7 +43,7 @@ export const Interview = () => {
   };
 
   return (
-    <div className="bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 text-white">
+    <div className="bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 text-white flex flex-col overflow-hidden">
 
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">React Developer Interview</h1>
@@ -78,7 +78,7 @@ export const Interview = () => {
 
 
       {/* Question Card */}
-      <div className="mt-5 bg-[#111827]/40 border border-gray-800 rounded-xl p-5">
+      <div className="mt-5 flex-1 min-h-0 bg-[#111827]/40 border border-gray-800 rounded-xl p-5 flex flex-col">
         <h2 className="text-base sm:text-lg font-semibold">
           {questions[currentQuestion]}
         </h2> 
@@ -87,7 +87,7 @@ export const Interview = () => {
         <textarea value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder="Type your answer here..."
-          className="w-full h-40 mt-4 bg-[#111827]/30 border border-gray-800 rounded-lg p-3 text-sm text-white placeholder:text-gray-500 resize-none focus:outline-none focus:border-purple-600"
+          className="w-full flex-1 min-h-0 mt-4 bg-[#111827]/30 border border-gray-800 rounded-lg p-3 text-sm text-white placeholder:text-gray-500 resize-none focus:outline-none focus:border-purple-600"
         /> 
         <div className="text-right text-xs text-gray-500 mt-1">
           Words: {answer.trim() ? answer.trim().split(/\s+/).length : 0}
@@ -95,7 +95,7 @@ export const Interview = () => {
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between items-center mt-5">
+      <div className="flex justify-between items-center mt-5 shrink-0">
         <button onClick={handlePrevious} disabled={currentQuestion === 0}
           className="px-5 py-2 rounded-lg border border-gray-800 text-gray-300 text-sm hover:border-purple-600 disabled:opacity-40 disabled:cursor-not-allowed transition"
         >
