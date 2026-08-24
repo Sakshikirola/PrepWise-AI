@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import StartInterview from "./pages/StartInterview";
+import Interview from "./pages/Interview";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="signup" element={<Signup/>}/>
       <Route path="dashboard" element={<Dashboard/>}/>
       <Route path="startInterview" element={<StartInterview/>}/>
+      <Route path="interview" element={<Interview/>}/> 
     </Routes>
   );
 }

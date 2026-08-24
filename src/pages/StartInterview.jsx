@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { ArrowLeft,ArrowRight, Search } from 'lucide-react'
+import { ArrowLeft,ArrowRight, Link, Search } from 'lucide-react'
+import { useNavigate } from "react-router-dom";
 import { popularSearches, interviewTypes, experienceLevels, questionCounts } from "./InterviewData";
 
 export const StartInterview = () => {
@@ -7,12 +8,14 @@ export const StartInterview = () => {
   const [selectedType, setSelectedType] = useState("");
   const [selectedExperience, setSelectedExperience] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState(""); 
+  const navigate = useNavigate();
 
   const handleStartInterview = () => {
     if (!selectedType || !selectedExperience || !selectedQuestions) {
       alert("Please select all interview options");
       return;
     }
+    navigate("/interview");
   };
 
   return (
