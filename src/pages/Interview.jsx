@@ -1,28 +1,20 @@
 import React, { useState } from "react";
 import { Clock3, CircleStop } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { interviewQuestions } from "./interviewQuestions";
 
 export const Interview = () => {
 
-  const questions = [
-    "What is the difference between state and props in React?",
-    "What are React Hooks?",
-    "What is the Virtual DOM in React?",
-    "What is the purpose of useEffect in React?",
-    "What is the difference between controlled and uncontrolled components?",
-    "What is JSX in React?",
-    "What is the difference between useState and useReducer?",
-    "What is React Context API?",
-    "What is the purpose of keys in React lists?", 
-    "What is the difference between React and JavaScript?"
-  ];
+  const location = useLocation();
+  const {interviewType, experience, questionCount} = location.state || {};
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(0); 
   const [answer, setAnswer] = useState("");
 
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const progress = ((currentQuestion + 1) / interviewQuestions.length) * 100; 
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < interviewQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
     } 
@@ -36,7 +28,7 @@ export const Interview = () => {
   };
 
   const handleSkip = () => {
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < interviewQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
     }
@@ -63,7 +55,7 @@ export const Interview = () => {
       <div className="mt-5">
         <div className="flex justify-between text-xs text-gray-400 mb-2">
           <span>
-            Question {currentQuestion + 1} of {questions.length}
+            Question {currentQuestion + 1} of {interviewQuestions.length}
           </span>
           <span>{Math.round(progress)}%</span>
         </div>
@@ -80,7 +72,7 @@ export const Interview = () => {
       {/* Question Card */}
       <div className="mt-5 flex-1 min-h-0 bg-[#111827]/40 border border-gray-800 rounded-xl p-5 flex flex-col">
         <h2 className="text-base sm:text-lg font-semibold">
-          {questions[currentQuestion]}
+          {interviewQuestions[currentQuestion]}
         </h2> 
 
         {/* Answer */}
@@ -111,8 +103,8 @@ export const Interview = () => {
         <button onClick={handleNext}
           className="px-6 py-2 rounded-lg bg-[#3730A3] text-white text-sm font-semibold hover:bg-[#4338CA] transition"
         >
-          {currentQuestion === questions.length - 1? "Finish": "Next"}
-        </button>
+          {currentQuestion === interviewQuestions.length - 1? "Finish": "Next"}
+        </button> 
       </div>
 
     </div>

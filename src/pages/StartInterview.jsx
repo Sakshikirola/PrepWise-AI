@@ -15,7 +15,14 @@ export const StartInterview = () => {
       alert("Please select all interview options");
       return;
     }
-    navigate("/interview");
+
+    navigate("/interview", {
+     state: {
+     interviewType: selectedType,
+     experience: selectedExperience,
+     questionCount: selectedQuestions
+     }
+    }); 
   };
 
   return (
