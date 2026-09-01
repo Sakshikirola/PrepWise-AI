@@ -1,23 +1,25 @@
 import React, { useState } from 'react'
-import { ArrowLeft,ArrowRight, Link, Search } from 'lucide-react'
+import { ArrowLeft,ArrowRight, Search } from 'lucide-react'
 import { useNavigate } from "react-router-dom";
 import { popularSearches, interviewTypes, experienceLevels, questionCounts } from "./InterviewData";
 
 export const StartInterview = () => {
 
+  const [topic, setTopic] = useState(""); 
   const [selectedType, setSelectedType] = useState("");
   const [selectedExperience, setSelectedExperience] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState(""); 
   const navigate = useNavigate();
 
   const handleStartInterview = () => {
-    if (!selectedType || !selectedExperience || !selectedQuestions) {
-      alert("Please select all interview options");
+    if (!topic || !selectedType || !selectedExperience || !selectedQuestions) {
+      alert("Please select all interview options");  
       return;
     }
 
     navigate("/interview", {
      state: {
+     topic,
      interviewType: selectedType,
      experience: selectedExperience,
      questionCount: selectedQuestions
@@ -63,10 +65,10 @@ export const StartInterview = () => {
       <div className='mt-1'>
        <h1 className='text-white text-xl font-semibold'>What do you want to practice?</h1>
        <div className="relative mt-2"> 
-        <input type="text" placeholder="Search role, technology, or interview type..."
+        <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Search role, technology, or interview type..."
         className="w-full bg-[#111827]/20 border border-gray-700 rounded-md px-3 py-2 pr-10 text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-purple-600"/>
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"/>
-       </div>
+       </div> 
       </div> 
 
       {/* searches */}
@@ -74,9 +76,10 @@ export const StartInterview = () => {
         <h1 className='text-white text-xl font-semibold'>Popular Searches</h1>
         <div className="flex flex-wrap gap-2 mt-2"> 
          {popularSearches.map((topic) => (
-          <button key={topic}
-          className="px-3 py-2 rounded-lg bg-[#111827]/20 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition">
-           {topic}
+          <button key={topic} onClick={() => setTopic(topic)}
+          className="px-3 py-2 rounded-lg bg-[#111827]/20 border border-gray-700 text-gray-400 text-sm hover:border-purple-600 hover:text-white transition"
+          >
+            {topic}
           </button>
          ))}
         </div>
