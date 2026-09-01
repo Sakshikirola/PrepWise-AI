@@ -7,14 +7,17 @@ export const Interview = () => {
 
   const location = useLocation();
   const {interviewType, experience, questionCount} = location.state || {};
+  const numberOfQuestions = parseInt(questionCount); 
+  const questionsForSelection = interviewQuestions[interviewType]?.[experience] || [];
+  const selectedQuestions = questionsForSelection.slice(0, numberOfQuestions);
 
-  const [currentQuestion, setCurrentQuestion] = useState(0); 
+  const [currentQuestion, setCurrentQuestion] = useState(0);  
   const [answer, setAnswer] = useState("");
 
-  const progress = ((currentQuestion + 1) / interviewQuestions.length) * 100; 
+  const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100; 
 
   const handleNext = () => {
-    if (currentQuestion < interviewQuestions.length - 1) {
+    if (currentQuestion < selectedQuestions.length - 1) { 
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
     } 
@@ -28,7 +31,7 @@ export const Interview = () => {
   };
 
   const handleSkip = () => {
-    if (currentQuestion < interviewQuestions.length - 1) {
+    if (currentQuestion < selectedQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
     }
@@ -55,7 +58,7 @@ export const Interview = () => {
       <div className="mt-5">
         <div className="flex justify-between text-xs text-gray-400 mb-2">
           <span>
-            Question {currentQuestion + 1} of {interviewQuestions.length}
+            Question {currentQuestion + 1} of {selectedQuestions.length}
           </span>
           <span>{Math.round(progress)}%</span>
         </div>
@@ -72,7 +75,7 @@ export const Interview = () => {
       {/* Question Card */}
       <div className="mt-5 flex-1 min-h-0 bg-[#111827]/40 border border-gray-800 rounded-xl p-5 flex flex-col">
         <h2 className="text-base sm:text-lg font-semibold">
-          {interviewQuestions[currentQuestion]}
+          {selectedQuestions[currentQuestion]}
         </h2> 
 
         {/* Answer */}
@@ -103,7 +106,7 @@ export const Interview = () => {
         <button onClick={handleNext}
           className="px-6 py-2 rounded-lg bg-[#3730A3] text-white text-sm font-semibold hover:bg-[#4338CA] transition"
         >
-          {currentQuestion === interviewQuestions.length - 1? "Finish": "Next"}
+          {currentQuestion === selectedQuestions.length - 1? "Finish": "Next"}
         </button> 
       </div>
 
