@@ -5,32 +5,60 @@ import { Clock3, CircleStop } from "lucide-react";
 export const Interview = () => {
 
   const location = useLocation();
+  const navigate = useNavigate();
   const {topic,interviewType,experience,questionCount,questions} = location.state || {};
   const selectedQuestions = questions || [];  
 
   const [currentQuestion, setCurrentQuestion] = useState(0);  
-  const [answer, setAnswer] = useState("");
+  const [answers, setAnswers] = useState(Array(selectedQuestions.length).fill("")); 
+  const currentAnswer = answers[currentQuestion] || ""; 
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100; 
 
+  useEffect(() => {
+   const timer = setInterval(() => {
+     setElapsedTime((prev) => prev + 1);
+   }, 1000);
+
+   return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
+
+  const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;  
+
+  const handleAnswerChange = (e) => {
+    const newAnswer = e.target.value;
+    setAnswers((prev) => {
+    const updated = [...prev];
+    updated[currentQuestion] = newAnswer;
+    return updated;
+    });
+  }; 
+
   const handleNext = () => {
-    if (currentQuestion < selectedQuestions.length - 1) {  
-      setCurrentQuestion(currentQuestion + 1);
-      setAnswer("");
-    } 
-  };
+  if (currentQuestion < selectedQuestions.length - 1) {
+    setCurrentQuestion(currentQuestion + 1);
+  } else {
+    handleFinish();
+  }
+  }; 
 
   const handlePrevious = () => {
     if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setAnswer("");
+      setCurrentQuestion(currentQuestion - 1); 
     } 
   };
 
   const handleSkip = () => {
     if (currentQuestion < selectedQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setAnswer("");
+    }else{
+      handleFinish();
     }
   };
 
@@ -38,11 +66,11 @@ export const Interview = () => {
     <div className="bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 text-white flex flex-col overflow-hidden">
 
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">React Developer Interview</h1>
+        <h1 className="text-lg font-semibold">{topic} Interview</h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1 text-gray-300">
             <Clock3 className="w-4 h-4" />
-            <span>15:20</span>
+            <span>{formattedTime}</span> 
           </div>
           <button className="flex items-center gap-1 border border-red-500 text-red-400 px-3 py-1 rounded-md text-sm hover:bg-red-500/10 transition">
             <CircleStop className="w-4 h-4" />
@@ -76,13 +104,13 @@ export const Interview = () => {
         </h2> 
 
         {/* Answer */}
-        <textarea value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+        <textarea value={currentAnswer}
+          onChange={handleAnswerChange}
           placeholder="Type your answer here..."
           className="w-full flex-1 min-h-0 mt-4 bg-[#111827]/30 border border-gray-800 rounded-lg p-3 text-sm text-white placeholder:text-gray-500 resize-none focus:outline-none focus:border-purple-600"
         /> 
         <div className="text-right text-xs text-gray-500 mt-1">
-          Words: {answer.trim() ? answer.trim().split(/\s+/).length : 0}
+          Words: {currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).length : 0}
         </div>
       </div>
 

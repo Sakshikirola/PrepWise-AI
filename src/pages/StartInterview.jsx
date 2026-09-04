@@ -106,7 +106,7 @@ export const StartInterview = () => {
       </div> 
 
       {/* searches */}
-      <div className='mt-1'>~
+      <div className='mt-0'>
         <h1 className='text-white text-xl font-semibold'>Popular Searches</h1>
         <div className="flex flex-wrap gap-2 mt-2"> 
          {popularSearches.map((topic) => (
@@ -125,7 +125,7 @@ export const StartInterview = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
          {interviewTypes.map((type) => (
           <div key={type.id} onClick={() => setSelectedType(selectedType === type.title ? "" : type.title)}
-           className={`border rounded-xl p-4 py-2 text-white cursor-pointer transition ${
+           className={`border rounded-xl px-4 py-2 text-white cursor-pointer transition ${
             selectedType === type.title?"bg-[#A78BFA]/20 border-purple-500": "bg-[#111827]/20 border-gray-700 hover:border-purple-600"
            }`}
           >
@@ -174,10 +174,12 @@ export const StartInterview = () => {
        </div>
       </div>
 
-     <div className="w-full px-4 py-2 rounded-lg bg-[#3730A3] text-white text-sm flex gap-2 items-center justify-center font-bold mt-2">
-      <button onClick={handleStartInterview} className='text-lg'>Start Interview</button>
-      <ArrowRight/> 
-     </div>
+    <button onClick={handleStartInterview}
+      className="w-full px-4 py-2 rounded-lg bg-[#3730A3] text-white text-lg flex gap-2 items-center justify-center font-bold mt-2 hover:bg-[#4338CA] active:scale-95 transition cursor-pointer"
+    >
+      <span>Start Interview</span>
+      <ArrowRight />
+    </button>
 
     </div>
   )
