@@ -9,22 +9,56 @@ export const StartInterview = () => {
   const [selectedType, setSelectedType] = useState("");
   const [selectedExperience, setSelectedExperience] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState(""); 
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
-  const handleStartInterview = () => {
+  const handleStartInterview = async() => {
     if (!topic || !selectedType || !selectedExperience || !selectedQuestions) {
       alert("Please select all interview options");  
       return;
     }
 
+    try {
+    setLoading(true);
+
+    const response = await fetch(
+      "http://localhost:5001/api/generate-questions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+          topic,
+          interviewType: selectedType,
+          experience: selectedExperience,
+          questionCount: selectedQuestions,
+        }),
+      }
+    ); 
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to generate questions");
+    }
+
     navigate("/interview", {
-     state: {
-     topic,
-     interviewType: selectedType,
-     experience: selectedExperience,
-     questionCount: selectedQuestions
-     }
-    }); 
+      state: {
+        topic,
+        interviewType: selectedType,
+        experience: selectedExperience,
+        questionCount: selectedQuestions,
+        questions: data.questions,
+      },
+    });
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to generate interview questions");
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -72,7 +106,7 @@ export const StartInterview = () => {
       </div> 
 
       {/* searches */}
-      <div className='mt-1'>
+      <div className='mt-1'>~
         <h1 className='text-white text-xl font-semibold'>Popular Searches</h1>
         <div className="flex flex-wrap gap-2 mt-2"> 
          {popularSearches.map((topic) => (

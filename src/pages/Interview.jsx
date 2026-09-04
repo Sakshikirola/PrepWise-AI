@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom"; 
 import { Clock3, CircleStop } from "lucide-react";
-import { useLocation } from "react-router-dom";
-import { interviewQuestions } from "./interviewQuestions";
 
 export const Interview = () => {
 
   const location = useLocation();
-  const {interviewType, experience, questionCount} = location.state || {};
-  const numberOfQuestions = parseInt(questionCount); 
-  const questionsForSelection = interviewQuestions[interviewType]?.[experience] || [];
-  const selectedQuestions = questionsForSelection.slice(0, numberOfQuestions);
+  const {topic,interviewType,experience,questionCount,questions} = location.state || {};
+  const selectedQuestions = questions || [];  
 
   const [currentQuestion, setCurrentQuestion] = useState(0);  
   const [answer, setAnswer] = useState("");
@@ -17,7 +14,7 @@ export const Interview = () => {
   const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100; 
 
   const handleNext = () => {
-    if (currentQuestion < selectedQuestions.length - 1) { 
+    if (currentQuestion < selectedQuestions.length - 1) {  
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
     } 
