@@ -15,7 +15,7 @@ const ai = new GoogleGenAI({
 
 app.get("/", (req, res) => {
   res.send("PrepWise AI Backend is running!");   
-});
+}); 
 
 app.post("/api/generate-questions", async (req, res) => {
   try {
@@ -44,7 +44,7 @@ app.post("/api/generate-questions", async (req, res) => {
       config: { responseMimeType: "application/json" }
     });
 
-    const questions = JSON.parse(response.text);
+    const questions = JSON.parse(response.text); 
 
     res.json({
     questions

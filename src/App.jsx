@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import StartInterview from "./pages/StartInterview";
 import Interview from "./pages/Interview";
+import Feedback from "./pages/Feedback";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="dashboard" element={<Dashboard/>}/>
       <Route path="startInterview" element={<StartInterview/>}/>
       <Route path="interview" element={<Interview/>}/> 
+      <Route path="feedback" element={<Feedback/>}/>
     </Routes>
   );
 }
