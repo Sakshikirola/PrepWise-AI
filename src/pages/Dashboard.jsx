@@ -3,9 +3,10 @@ import {Sparkles ,Plus, Menu, X, Bell, CircleUserRound, CheckCircle, CircleAlert
   PlayCircle, History, UserRound,Settings,LogOut} from "lucide-react"; 
 import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip, ResponsiveContainer} from "recharts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false); 
   return (
     <div className='bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden'> 
@@ -40,7 +41,8 @@ export const Dashboard = () => {
          <p className='text-gray-400 text-md'>Let's continue your interview preparation</p>
         </div>
         <div>
-            <button className="flex gap-2 font-semibold bg-[#3730A3] text-white text-md px-4 py-2 rounded">
+            <button onClick={() => navigate("/startInterview")}
+             className="flex gap-2 font-semibold bg-[#3730A3] text-white text-md px-4 py-2 rounded">
                 <Plus className="w-5 h-5 mt-1" />
                 Start New Interview
             </button> 
