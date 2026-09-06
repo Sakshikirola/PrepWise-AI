@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; 
+import { useLocation, useNavigate, Navigate} from "react-router-dom"; 
 import { Clock3, CircleStop } from "lucide-react";
 
 export const Interview = () => {
@@ -8,6 +8,10 @@ export const Interview = () => {
   const navigate = useNavigate();
   const {topic,interviewType,experience,questionCount,questions} = location.state || {};
   const selectedQuestions = questions || [];  
+
+  if (!questions || questions.length === 0) {
+   return <Navigate to="/dashboard" replace />;   
+  }
 
   const [currentQuestion, setCurrentQuestion] = useState(0);  
   const [answers, setAnswers] = useState(Array(selectedQuestions.length).fill("")); 
@@ -38,6 +42,36 @@ export const Interview = () => {
     updated[currentQuestion] = newAnswer;
     return updated;
     });
+  }; 
+
+  const handleFinish = async () => {
+  const interviewData = { topic, interviewType, experience, questions: selectedQuestions, answers,
+    timeTaken: elapsedTime,
+  };
+
+  try {
+    const response = await fetch(
+      "http://localhost:5001/api/evaluate-interview",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(interviewData),
+      }
+    );
+    const evaluation = await response.json();
+    if (!response.ok) {
+      throw new Error(evaluation.error || "Failed to evaluate interview");
+    }
+    navigate("/feedback", {
+    state: {evaluation, topic, interviewType,experience,timeTaken: elapsedTime, },
+    });
+  } catch (error) {
+    console.error("Evaluation Error:", error);
+    console.error("Full Error:", error.message);
+    alert(error.message);
+  }
   }; 
 
   const handleNext = () => {
