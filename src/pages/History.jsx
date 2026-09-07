@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Search, Eye } from "lucide-react";
+import { Search, ArrowLeft} from "lucide-react";
+import { useNavigate } from "react-router-dom"; 
 
 const historyData = [
   {
@@ -45,6 +46,7 @@ const historyData = [
 ];
 
 const History = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   const filteredInterviews = historyData.filter((interview) =>
@@ -53,12 +55,19 @@ const History = () => {
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-5">
-      <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">Interview History</h1>
-        <p className="text-gray-500 text-sm mt-1">
-          Review your past interviews and track your progress
-        </p>
-      </div>
+     <div className="flex items-center gap-3 mb-6">
+      <button onClick={() => navigate(-1)}
+       className="p-1 rounded-md mb-4 text-gray-300 hover:bg-gray-800 hover:text-white transition"
+      >
+       <ArrowLeft className="w-6 h-6 font-bold" />
+       </button>
+     <div>
+       <h1 className="text-2xl sm:text-3xl font-bold">Interview History</h1>
+       <p className="text-gray-500 text-sm mt-1">
+        Review your past interviews and track your progress
+       </p>
+     </div>
+     </div>
 
       <div className="max-w-7xl mx-auto bg-[#0B1220] border border-gray-800 rounded-xl p-4 sm:p-5">
         <div className="flex flex-col sm:flex-row gap-3 mb-5">
@@ -99,7 +108,6 @@ const History = () => {
                 <th className="px-3 py-3 font-medium">Experience</th>
                 <th className="px-3 py-3 font-medium">Score</th>
                 <th className="px-3 py-3 font-medium">Date</th>
-                <th className="px-3 py-3 font-medium text-center">Actions</th>
               </tr>
             </thead>
 
@@ -128,15 +136,6 @@ const History = () => {
                   </td>
                   <td className="px-3 py-4 text-gray-400">
                     {interview.date}
-                  </td>
-
-                  <td className="px-3 py-4 text-center">
-                    <button
-                      className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 transition"
-                      title="View Feedback"
-                    >
-                      <Eye className="w-4 h-4 mx-auto" />
-                    </button>
                   </td>
                 </tr>
               ))}

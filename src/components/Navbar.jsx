@@ -13,19 +13,17 @@ export const Navbar = () => {
           <h1 className='text-2xl font-bold text-white'> PrepWise AI</h1>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
-          <p className="text-white text-md cursor-pointer transition">Home</p>
-          <p className="text-white text-md cursor-pointer transition">Features</p>
-          <p className="text-white text-md cursor-pointer transition">About</p>
-          <p className="text-white text-md cursor-pointer transition">Contact</p>
+        <div className="hidden md:flex items-center gap-5">
           <Link to="/login">
-            <button className="text-white text-md border-2 border-gray-700 px-6 py-2 rounded-3xl hover:border-purple-500 transition">
+            <button className="text-white text-md border-2 border-gray-700 px-8 py-2 rounded-3xl hover:border-purple-500 transition">
               Login
             </button>
           </Link>
-          <button className="font-semibold bg-[#3730A3] text-white text-md px-5 py-2 rounded-3xl">
+          <Link to="/signup">
+          <button className="font-semibold bg-[#3730A3] text-white text-md px-4 py-2 rounded-3xl">
             Get Started
           </button>
+          </Link>
         </div> 
         <button className="md:hidden text-white"
           onClick={() => setIsMenuOpen(!isMenuOpen)}   
@@ -38,10 +36,6 @@ export const Navbar = () => {
 
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-center gap-5 mt-5 pb-4">
-          <p className="text-white text-md cursor-pointer">Home</p>
-          <p className="text-white text-md cursor-pointer">Features</p>
-          <p className="text-white text-md cursor-pointer">About</p>
-          <p className="text-white text-md cursor-pointer">Contact</p>
           <Link to="/login">
             <button className="text-white text-md border-2 border-gray-700 px-6 py-2 rounded-3xl hover:border-purple-500 transition">
               Login

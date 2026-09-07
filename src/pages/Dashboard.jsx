@@ -1,6 +1,6 @@
 import { useState } from "react";
-import {Sparkles ,Plus, Menu, X, Bell, CircleUserRound, CheckCircle, CircleAlert, Target, LayoutDashboard,
-  PlayCircle, History, UserRound,Settings,LogOut} from "lucide-react"; 
+import {Sparkles ,Plus, Menu, X,CircleUserRound, CheckCircle, CircleAlert, Target, LayoutDashboard,
+  PlayCircle, History,LogOut} from "lucide-react"; 
 import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip, ResponsiveContainer} from "recharts";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,7 +28,6 @@ export const Dashboard = () => {
 
        </div>
        <div className='flex gap-1 sm:gap-2 items-center'> 
-        <Bell className='w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-7'/>
         <CircleUserRound className="w-6 h-6 sm:w-8 sm:h-8 text-gray-300" />
         <h1 className="text-sm sm:text-base">Sakshi</h1> 
        </div>
@@ -172,18 +171,13 @@ export const Dashboard = () => {
         <span>Start Interview</span>  
        </button> 
        </Link>
+       <Link to="/history"> 
        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
-        <History className="w-5 h-5 shrink-0" /> 
+        <History className="w-5 h-5 shrink-0" />  
         <span>History</span> 
        </button> 
-       <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
-        <UserRound className="w-5 h-5 shrink-0" /> 
-        <span>Profile</span> 
-       </button> 
-       <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
-        <Settings className="w-5 h-5 shrink-0" /> 
-        <span>Settings</span> 
-       </button> 
+       </Link>
+    
       </div> 
        {/* Logout */} 
       <div className="absolute bottom-5 left-3 right-3"> 
