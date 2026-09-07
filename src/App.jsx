@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import StartInterview from "./pages/StartInterview";
 import Interview from "./pages/Interview";
 import Feedback from "./pages/Feedback";
+import History from "./pages/History";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="startInterview" element={<StartInterview/>}/>
       <Route path="interview" element={<Interview/>}/> 
       <Route path="feedback" element={<Feedback/>}/>
+      <Route path="history" element={<History/>}/> 
     </Routes>
   );
 }

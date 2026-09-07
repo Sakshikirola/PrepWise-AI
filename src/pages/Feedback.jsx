@@ -9,12 +9,12 @@ const Feedback = () => {
 
  const {evaluation,topic,interviewType,experience,timeTaken,} = location.state || {}; 
  if (!evaluation) {
-  return <Navigate to="/dashboard" replace />;
+  return <Navigate to="/dashboard" replace />; 
  } 
 
  const score = evaluation?.score || 0;
  const accuracy = evaluation?.accuracy || 0;
- const strengths = evaluation?.strengths || [];
+ const strengths = evaluation?.strengths || []; 
  const improvements = evaluation?.improvements || []; 
 
  const totalQuestions = evaluation?.questionFeedback?.length || 0;
