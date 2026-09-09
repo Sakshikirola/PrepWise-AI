@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sparkles, Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "../lib/auth"; 
 
 export const Signup = () => {
   return (
