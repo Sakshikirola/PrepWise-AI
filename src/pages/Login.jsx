@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sparkles, Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../lib/auth";
 
 export const Login = () => {
+
+ const navigate = useNavigate();
+ const [email, setEmail] = useState("");
+ const [password, setPassword] = useState("");
+ const [error, setError] = useState("");
+ const [loading, setLoading] = useState(false);  
+
+ const handleLogin = async () => {
+  setError("");
+  if (!email || !password) {
+    setError("Please enter email and password.");
+    return;
+  }
+  setLoading(true);
+  const { data, error } = await signIn(email, password); 
+  setLoading(false);
+  if (error) {
+    setError(error.message);
+    return;
+  }
+  if (data.user) {
+    navigate("/dashboard");
+  }
+  }; 
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Logo */}
@@ -28,9 +54,10 @@ export const Login = () => {
               <label className="block text-sm text-gray-300 mb-2">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <input type="email" placeholder="Enter your email"
+                <input type="email" value={email} placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)} 
                   className="w-full bg-black border border-gray-800 rounded-lg py-3 pl-11 pr-4 text-sm text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
-                />
+                /> 
               </div>
             </div>
 
@@ -38,7 +65,8 @@ export const Login = () => {
               <label className="block text-sm text-gray-300 mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <input type="password" placeholder="Enter your password"
+                <input type="password" placeholder="Enter your password" value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black border border-gray-800 rounded-lg py-3 pl-11 pr-4 text-sm text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
                 />
               </div>
@@ -55,10 +83,16 @@ export const Login = () => {
               </button>
             </div>
 
+            {error && ( 
+              <p className="text-red-400 text-sm mb-4">{error}</p>
+            )}
+
             <button className="
                 w-full bg-[#3730A3] text-white
-                font-medium py-3 rounded-lg transition shadow-lg shadow-purple-500/10">
-             Login
+                font-medium py-3 rounded-lg transition shadow-lg shadow-purple-500/10"
+                onClick={handleLogin} disabled={loading}
+            >
+             {loading ? "Logging in..." : "Login"} 
             </button>
 
             <p className="text-center text-sm text-gray-500 mt-6">
