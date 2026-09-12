@@ -4,10 +4,21 @@ import {Sparkles ,Plus, Menu, X,CircleUserRound, CheckCircle, CircleAlert, Targe
 import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip, ResponsiveContainer} from "recharts";
 import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "../lib/auth";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false); 
+
+  const handleLogout = async () => {
+   const { error } = await signOut();
+   if (error) {
+    console.error("Logout error:", error);
+    return;
+   } 
+   navigate("/login"); 
+  };
+
   return (
     <div className='bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden'> 
       {/* profile */}
@@ -181,7 +192,7 @@ export const Dashboard = () => {
       </div> 
        {/* Logout */} 
       <div className="absolute bottom-5 left-3 right-3"> 
-      <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
+      <button  onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition whitespace-nowrap"> 
         <LogOut className="w-5 h-5 shrink-0" /> 
         <span>Logout</span> 
       </button>
