@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Navigate} from "react-router-dom"; 
 import { Clock3, CircleStop } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 export const Interview = () => {
 
@@ -20,7 +21,7 @@ export const Interview = () => {
 
   const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100; 
 
-  useEffect(() => {
+  useEffect(() => { 
    const timer = setInterval(() => {
      setElapsedTime((prev) => prev + 1);
    }, 1000);
@@ -50,6 +51,16 @@ export const Interview = () => {
   };
 
   try {
+    // Get the currently logged-in user
+    const { data: userData, error: userError } =
+      await supabase.auth.getUser();
+
+    if (userError || !userData.user) {
+      throw new Error("User is not logged in."); 
+    }
+
+    const user = userData.user;
+
     const response = await fetch(
       "http://localhost:5001/api/evaluate-interview",
       {
@@ -64,6 +75,29 @@ export const Interview = () => {
     if (!response.ok) {
       throw new Error(evaluation.error || "Failed to evaluate interview");
     }
+
+    // Save completed interview in Supabase
+    const { error: insertError } = await supabase.from("interviews")
+      .insert({ 
+        user_id: user.id,
+        topic: topic, 
+        interview_type: interviewType,
+        experience: experience,
+        score: evaluation.score,
+        accuracy: evaluation.accuracy,
+        time_taken: elapsedTime,
+        questions: selectedQuestions,
+        answers: answers,
+        strengths: evaluation.strengths,
+        improvements: evaluation.improvements,
+        question_feedback: evaluation.questionFeedback,
+      });
+      if (insertError) {
+      throw new Error(
+        insertError.message || "Failed to save interview"
+      );
+    }
+
     navigate("/feedback", {
     state: {evaluation, topic, interviewType,experience,timeTaken: elapsedTime, },
     });
