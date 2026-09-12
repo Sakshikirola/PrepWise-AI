@@ -1,57 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, ArrowLeft} from "lucide-react";
 import { useNavigate } from "react-router-dom"; 
+import { supabase } from "../lib/supabase";
 
-const historyData = [
-  {
-    id: 1,
-    interview: "C++ Interview",
-    type: "Technical",
-    experience: "Fresher",
-    score: 8.5,
-    date: "07 Sep 2026",
-  },
-  {
-    id: 2,
-    interview: "React Interview",
-    type: "Technical",
-    experience: "Fresher",
-    score: 7.5,
-    date: "05 Sep 2026",
-  },
-  {
-    id: 3,
-    interview: "JavaScript Interview",
-    type: "Technical",
-    experience: "Fresher",
-    score: 7.0,
-    date: "03 Sep 2026",
-  },
-  {
-    id: 4,
-    interview: "HR Interview",
-    type: "HR",
-    experience: "Fresher",
-    score: 8.0,
-    date: "01 Sep 2026",
-  },
-  {
-    id: 5,
-    interview: "Frontend Developer",
-    type: "Technical",
-    experience: "Intermediate",
-    score: 6.5,
-    date: "29 Aug 2026",
-  },
-];
+
 
 const History = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); 
+  const [historyData, setHistoryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+  const fetchHistory = async () => {
+    try { 
+      setLoading(true);
+      setError("");
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError) {
+        throw userError;
+      }
+      if (!user) {
+        setError("Please login to view your interview history.");
+        return;
+      }
+
+      const { data, error: fetchError } = await supabase.from("interviews")
+        .select(
+          "id, created_at, user_id, topic, interview_type, experience, score, accuracy, questions, answers, time_taken"
+        )
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+       
+        if (fetchError) {
+         throw fetchError;
+        }
+        setHistoryData(data || []); 
+    } 
+    catch (err) {
+      console.error("Error fetching interview history:", err);
+      setError("Failed to load interview history.");
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  fetchHistory();
+}, []);
+
 
   const filteredInterviews = historyData.filter((interview) =>
-    interview.interview.toLowerCase().includes(search.toLowerCase())
-  );
+   interview.topic?.toLowerCase().includes(search.toLowerCase()) ||
+   interview.interview_type?.toLowerCase().includes(search.toLowerCase())
+  ); 
+
+  const formatDate = (dateString) => {
+   return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+   }); 
+  };
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-5">
@@ -118,24 +131,24 @@ const History = () => {
                   className="border-b border-gray-800/70 last:border-0 hover:bg-[#111827]/50 transition"
                 >
                   <td className="px-3 py-4 text-gray-200 font-medium">
-                    {interview.interview}
+                    {interview.topic} Interview
                   </td>
                   <td className="px-3 py-4 text-gray-400">
-                    {interview.type}
+                    {interview.interview_type}
                   </td>
                   <td className="px-3 py-4 text-gray-400">
                     {interview.experience}
                   </td>
                   <td className="px-3 py-4">
                     <span className="text-purple-400 font-semibold">
-                      {interview.score}
-                    </span>
+                      {Number(interview.score).toFixed(1)}
+                    </span> 
                     <span className="text-gray-500">
                       /10
                     </span>
                   </td>
                   <td className="px-3 py-4 text-gray-400">
-                    {interview.date}
+                    {formatDate(interview.created_at)}
                   </td>
                 </tr>
               ))}
