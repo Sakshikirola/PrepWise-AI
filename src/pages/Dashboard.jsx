@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase"; 
 import {Sparkles ,Plus, Menu, X,CircleUserRound, CheckCircle, CircleAlert, Target, LayoutDashboard,
   PlayCircle, History,LogOut} from "lucide-react"; 
-import { dashboardStats, performanceData, recentInterviews } from "./DashboardData";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid,Tooltip, ResponsiveContainer} from "recharts";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../lib/auth";
@@ -9,6 +9,8 @@ import { signOut } from "../lib/auth";
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const [interviews, setInterviews] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   const handleLogout = async () => {
    const { error } = await signOut();
@@ -19,8 +21,77 @@ export const Dashboard = () => {
    navigate("/login"); 
   };
 
+  useEffect(() => {
+   const fetchInterviews = async () => {
+    const { data, error } = await supabase .from("interviews")
+      .select("*") 
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Dashboard Error:", error);
+      setLoading(false);
+      return; 
+    }
+
+    setInterviews(data || []);
+    setLoading(false); 
+   };
+
+   fetchInterviews();
+  }, []);
+
+  const totalInterviews = interviews.length; 
+  const averageScore = totalInterviews > 0
+    ? (
+        interviews.reduce((sum, interview) => sum + Number(interview.score || 0), 0) /
+        totalInterviews
+      ).toFixed(1)
+    : "0.0";
+
+  const bestScore = totalInterviews > 0
+    ? Math.max(...interviews.map((interview) => Number(interview.score || 0))).toFixed(1)
+    : "0.0";
+
+  const totalSeconds = interviews.reduce(
+  (sum, interview) => sum + Number(interview.time_taken || 0),
+   0
+  );
+  const totalMinutes = Math.floor(totalSeconds / 60);
+
+  const practiceTime = totalMinutes >= 60
+    ? `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`
+    : `${totalMinutes}m`;
+
+  const performanceData = [...interviews] 
+  .reverse()
+  .map((interview) => ({
+    month: new Date(interview.created_at).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+    }),
+    score: Number(interview.score || 0),
+  })); 
+
+  const recentInterviews = interviews.slice(0, 5);
+
+  const strengths = [
+  ...new Set(
+    interviews.flatMap((interview) => interview.strengths || [])
+  ),
+  ].slice(0, 3);
+
+  const improvements = [
+  ...new Set(
+    interviews.flatMap((interview) => interview.improvements || [])
+  ),
+  ].slice(0, 3);
+
+  const recommendedFocus = improvements.length > 0
+  ? improvements.slice(0, 2).join(", ")
+  : "Complete more interviews to get recommendations";
+
   return (
-    <div className='bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden'> 
+    <div className='bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden lg:h-screen lg:overflow-hidden'> 
       {/* profile */}
       <div className='flex justify-between text-white'> 
        <div className='flex items-center gap-3'> 
@@ -54,29 +125,53 @@ export const Dashboard = () => {
             <button onClick={() => navigate("/startInterview")}
              className="flex gap-2 font-semibold bg-[#3730A3] text-white text-md px-4 py-2 rounded">
                 <Plus className="w-5 h-5 mt-1" />
-                Start New Interview
+                Start New Interview 
             </button> 
         </div> 
       </div>
 
       {/* cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white mt-5">
-        {dashboardStats.map((stat) => {
+        {[
+          {
+          title: "Total Interviews",
+          value: totalInterviews,
+          icon: Target,
+          iconColor: "text-blue-400",
+         },
+         {
+          title: "Average Score",
+          value: `${averageScore}/10`,
+          icon: CheckCircle,
+          iconColor: "text-green-500",
+         },
+         {
+          title: "Best Score",
+          value: `${bestScore}/10`,
+          icon: Sparkles,
+          iconColor: "text-purple-500",
+         },
+         {
+          title: "Practice Time",
+          value: practiceTime,
+          icon: CircleUserRound,
+          iconColor: "text-cyan-400",
+         },].map((stat) => {
          const Icon = stat.icon;
-         return (
-        <div className="py-3 px-5 bg-[#0B1220] rounded-2xl" key={stat.title}>
-         <Icon className={`w-6 h-6 ${stat.iconColor} mb-2`}/>
+       return (
+        <div  className="py-2 px-5 bg-[#0B1220] rounded-2xl" key={stat.title}>
+         <Icon className={`w-5 h-5 ${stat.iconColor} mb-2`} />
          <p>{stat.title}</p>
-         <h2 className="font-bold text-2xl">{stat.value}</h2>
+         <h2 className="font-bold text-xl">{stat.value}</h2>
         </div>
         );
-        })}
+       })}
       </div> 
 
       {/* main content */} 
-      <div className='grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-4 mt-4'>
+      <div className='grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-4 mt-4 lg:h-[calc(100vh-260px)] lg:min-h-0'>
        {/* graph */}
-       <div className="bg-[#0B1220] text-white rounded-xl p-6 w-full">
+       <div className="bg-[#0B1220] text-white rounded-xl p-6 w-full lg:h-full lg:min-h-0">
         <div className="flex justify-between items-center mb-3">
          <h2 className="text-white text-lg font-semibold">Performance Overview</h2>
          <button className="text-sm text-gray-400 border border-gray-700 rounded-md px-2 py-1">
@@ -107,54 +202,74 @@ export const Dashboard = () => {
       </div>
 
       {/* history */}
-      <div className='text-white bg-[#0B1220] rounded-xl p-4 w-full'>  
+      <div className='text-white bg-[#0B1220] rounded-xl p-4 w-full lg:h-full lg:min-h-0 overflow-hidden flex flex-col'>  
        <div className='flex justify-between items-center mb-4'>  
         <h1 className="text-white text-lg font-semibold">Recent Interviews</h1>  
-        <p className='text-sm font-semibold text-purple-600 cursor-pointer'>View All</p>  
+        <p onClick={() => navigate("/history")} className='text-sm font-semibold text-purple-600 cursor-pointer'>View All</p>  
        </div>  
-       <div className='space-y-4'>  
-       {recentInterviews.map((interview) => (  
-       <div className='flex justify-between items-center' key={interview.title}>  
-        <div>  
-          <h3 className='text-sm font-medium'>{interview.title}</h3>  
-          <p className='text-gray-400 text-xs mt-1'>{interview.date}</p>  
-        </div>  
-        <div className='text-right'>  
-          <span className='text-purple-400 font-semibold text-sm'>{interview.score}</span>  
-          <p className='text-gray-500 text-xs mt-1'>Score</p>  
-        </div>  
-       </div>  
-       ))}  
+       <div className='space-y-4 overflow-y-auto pr-2 flex-1'>  
+         {recentInterviews.map((interview) => (
+          <div className="flex justify-between items-center" key={interview.id}>
+          <div>
+           <h3 className="text-sm font-medium">{interview.topic} Interview</h3>
+           <p className="text-gray-400 text-xs mt-1">
+            {new Date(interview.created_at).toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            })}
+           </p>
+          </div>
+          <div className="text-right">
+           <span className="text-purple-400 font-semibold text-sm">{Number(interview.score).toFixed(1)}</span>
+           <p className="text-gray-500 text-xs mt-1">Score</p>
+          </div>
+         </div>
+         ))}
        </div>  
       </div>
 
       {/* short result */}
-       <div className='flex flex-col gap-4 w-full'> 
-        <div className='text-white bg-[#0B1220] rounded-xl p-4'> 
+       <div className='flex flex-col gap-4 w-full lg:h-full lg:min-h-0'> 
+        <div className='text-white bg-[#0B1220] rounded-xl p-4 lg:flex-1 lg:min-h-0 overflow-hidden flex flex-col'> 
         <div className='flex items-center gap-2 mb-2'>
          <CheckCircle className='w-5 h-5 text-green-500' />
          <h1 className='text-green-500'>Strengths</h1> 
         </div>
-        <p>Problem solving, Javascript, React</p> 
+        <div className="flex-1 min-h-0 overflow-y-auto pr-2 mt-1 scrollbar-hide">
+         <p>
+          {strengths.length > 0
+          ? strengths.join(", ")
+          : "Complete an interview to see your strengths"}
+         </p>
+        </div>
         </div> 
 
-        <div className='text-white bg-[#0B1220] rounded-xl p-4'> 
+        <div className='text-white bg-[#0B1220] rounded-xl p-4 lg:flex-1 lg:min-h-0 overflow-hidden flex flex-col'> 
         <div className='flex items-center gap-2 mb-2'>
          <CircleAlert className='w-5 h-5 text-red-500' />
          <h1 className='text-red-500'>Areas to Improve</h1> 
         </div>
-        <p>System Design, DBMS</p>  
+        <div className="flex-1 min-h-0 overflow-y-auto pr-2 mt-1 scrollbar-hide">
+         <p>
+         {improvements.length > 0
+         ? improvements.join(", ")
+         : "Complete an interview to see areas to improve"}
+         </p>
+        </div>
         </div> 
 
-        <div className='text-white bg-[#0B1220] rounded-xl p-4'>
+        <div className='text-white bg-[#0B1220] rounded-xl p-4 lg:flex-1 lg:min-h-0 overflow-hidden flex flex-col'>
         <div className='flex items-center gap-2 mb-2'>
          <Target className='w-5 h-5 text-blue-400' />
-         <h1 className='text-blue-400'>Recommended Focus</h1>
+         <h1 className='text-blue-400'>Recommondations</h1>
         </div>
-        <p>Practice System Design and DBMS</p>
+        <div className="flex-1 min-h-0 overflow-y-auto pr-2 mt-1 scrollbar-hide">
+          <p>{recommendedFocus}</p>
+        </div>
         </div>
        </div>
-
+ 
       {/* menu open */}
       {sidebarOpen && ( 
       <div className="fixed top-0 left-0 h-screen w-64 bg-[#0B1220] border-r border-gray-800 z-50"> 
