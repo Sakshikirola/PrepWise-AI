@@ -65,7 +65,11 @@ export const StartInterview = () => {
     <div className='bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-hidden'>
 
       <div className='flex gap-3 text-white items-center'>
-        <ArrowLeft className='mt-1'/>
+        <button onClick={() => navigate(-1)}
+          className="p-1 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white transition"
+        >
+          <ArrowLeft className="w-6 h-6 font-bold" />
+        </button>
         <h1 className='text-2xl font-bold'>Start New Interview</h1> 
       </div>
 

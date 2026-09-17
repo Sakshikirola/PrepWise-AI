@@ -2,10 +2,13 @@ import React from 'react'
 import { Sparkles, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import Robot from "../assets/Robot.png"
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
 
+  const navigate = useNavigate();
   const [showFeatures, setShowFeatures] = useState(false);
+  const [showPractice, setShowPractice] = useState(false); 
 
   return (
     <div className='h-auto md:h-90 px-6 md:px-12 flex flex-col md:flex-row justify-between mt-6 text-white'>
@@ -26,7 +29,9 @@ export const Hero = () => {
           and track your progress to ace your next interview.
         </p>
         <div className='mt-5 flex flex-wrap gap-4'>
-          <button className="font-semibold bg-[#3730A3] text-white text-md px-5 py-2 rounded-3xl">
+          <button
+           onClick={() => setShowPractice(true)} 
+           className="font-semibold bg-[#3730A3] text-white text-md px-5 py-2 rounded-3xl">
             Start Practicing
           </button>
           <button
@@ -100,6 +105,41 @@ export const Hero = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {showPractice && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4">
+       <div className="relative w-full max-w-md bg-[#0B1220] border border-gray-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <button onClick={() => setShowPractice(false)}
+        className="absolute top-5 left-5 p-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+         <ArrowLeft className="w-5 h-5" />
+        </button>
+
+        <div className="text-center mt-4">
+        <Sparkles className="w-10 h-10 text-purple-500 mx-auto mb-4" fill="currentColor"/>
+        <h2 className="text-2xl md:text-3xl font-bold text-white">
+          Ready to Start Practicing?
+        </h2>
+        <p className="text-gray-400 text-sm mt-3 leading-6">
+          Create an account to start your first AI-powered
+          interview and improve your interview skills.
+        </p>  
+        <div className="flex gap-3 justify-center mt-6">
+          <button onClick={() => navigate("/login")}
+            className="px-5 py-2 rounded-lg border border-gray-700 text-gray-300 hover:border-purple-500 hover:text-white transition"
+          >
+            Login
+          </button>
+          <button onClick={() => navigate("/signup")} 
+            className="px-5 py-2 rounded-lg bg-[#3730A3] text-white hover:bg-[#4338CA] transition"
+          >
+            Create Account
+          </button>
+         </div>
+        </div>
+        </div>
+       </div>
       )}
 
     </div>
