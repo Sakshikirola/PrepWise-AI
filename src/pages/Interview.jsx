@@ -73,7 +73,7 @@ export const Interview = () => {
     );
     const evaluation = await response.json();
     if (!response.ok) {
-      throw new Error(evaluation.error || "Failed to evaluate interview");
+      throw new Error(evaluation.error || "AI evaluation is temporarily unavailable. Please try again in a moment.");
     }
 
     // Save completed interview in Supabase
