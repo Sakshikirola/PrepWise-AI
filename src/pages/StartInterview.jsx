@@ -22,7 +22,7 @@ export const StartInterview = () => {
     setLoading(true);
 
     const response = await fetch(
-      "http://localhost:5001/api/generate-questions",
+      `${import.meta.env.VITE_API_URL}/api/generate-questions`,
       {
         method: "POST",
         headers: {

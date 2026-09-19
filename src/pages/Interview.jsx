@@ -62,7 +62,7 @@ export const Interview = () => {
     const user = userData.user;
 
     const response = await fetch(
-      "http://localhost:5001/api/evaluate-interview",
+      `${import.meta.env.VITE_API_URL}/api/evaluate-interview`,
       {
         method: "POST",
         headers: {
