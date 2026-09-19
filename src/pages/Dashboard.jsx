@@ -11,6 +11,7 @@ export const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); 
   const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(true); 
+  const [userName, setUserName] = useState("");
 
   const handleLogout = async () => {
    const { error } = await signOut();
@@ -22,6 +23,7 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
+
    const fetchInterviews = async () => {
     const { data, error } = await supabase .from("interviews")
       .select("*") 
@@ -37,6 +39,15 @@ export const Dashboard = () => {
     setLoading(false); 
    };
 
+   const getUser = async () => { const { data, error } = await supabase.auth.getUser();
+    if (error) {
+     console.error("User Error:", error);
+     return;
+    }
+    setUserName(data.user?.user_metadata?.full_name || "User");
+   };
+
+   getUser();
    fetchInterviews();
   }, []);
 
@@ -111,14 +122,14 @@ export const Dashboard = () => {
        </div>
        <div className='flex gap-1 sm:gap-2 items-center'> 
         <CircleUserRound className="w-6 h-6 sm:w-8 sm:h-8 text-gray-300" />
-        <h1 className="text-sm sm:text-base">Sakshi</h1> 
+        <h1 className="text-sm sm:text-base">{userName}</h1> 
        </div>
       </div>
 
       {/* welcome */}
       <div className='flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mt-4'>
         <div> 
-         <h1 className='text-xl font-bold text-white'>Welcome back, Sakshi</h1>
+         <h1 className='text-xl font-bold text-white'>Welcome back, {userName}</h1>
          <p className='text-gray-400 text-md'>Let's continue your interview preparation</p>
         </div>
         <div>
