@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Sparkles, Mail, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../lib/auth"; 
+import { supabase } from "../lib/supabase";
 
 export const Signup = () => {
 
@@ -14,6 +14,7 @@ export const Signup = () => {
 
   const handleSignup = async () => {
    setError("");
+
    if (!fullName || !email || !password) {
     setError("Please fill in all fields.");
     return;
@@ -23,25 +24,43 @@ export const Signup = () => {
     setError("Password must be at least 6 characters.");
     return;
    }
+
    setLoading(true);
 
-   const { data, error } = await signUp(email, password, {
-    data: {
-      full_name: fullName, 
+   const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName,
+      },
     },
-  });
+   });
 
-  setLoading(false);
-
-  if (error) {
+   if (error) {
+    setLoading(false);
     setError(error.message);
     return;
+   }
+
+   if (data.user) {
+    const { error: updateError } = await supabase.auth.updateUser({
+    data: {
+      full_name: fullName,
+    },
+   });
+
+   if (updateError) {
+    console.error("Name update error:", updateError);
+   }
   }
 
-  if (data.user) {
-    navigate("/login");
-  }
-};
+   setLoading(false);
+
+   if (data.user) { 
+    navigate("/login"); 
+   }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">

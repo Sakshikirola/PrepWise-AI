@@ -39,13 +39,17 @@ export const Dashboard = () => {
     setLoading(false); 
    };
 
-   const getUser = async () => { const { data, error } = await supabase.auth.getUser();
+   const getUser = async () => { 
+    const { data, error } = await supabase.auth.getUser();
     if (error) {
      console.error("User Error:", error);
      return;
     }
+    console.log("EMAIL:", data.user?.email);
+    console.log("NAME:", data.user?.user_metadata?.full_name);
+    console.log("METADATA:", data.user?.user_metadata);
     setUserName(data.user?.user_metadata?.full_name || "User");
-   };
+   }; 
 
    getUser();
    fetchInterviews();
