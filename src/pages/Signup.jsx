@@ -37,31 +37,23 @@ export const Signup = () => {
     },
    });
 
+   console.log("Signup user:", data.user);
+   console.log("Signup metadata:", data.user?.user_metadata);
+   console.log("Entered full name:", fullName);
+
+   setLoading(false);
+
    if (error) {
-    setLoading(false);
+    console.error("Signup error:", error);
     setError(error.message);
     return;
    }
 
    if (data.user) {
-    const { error: updateError } = await supabase.auth.updateUser({
-    data: {
-      full_name: fullName,
-    },
-   });
-
-   if (updateError) {
-    console.error("Name update error:", updateError);
-   }
-  }
-
-   setLoading(false);
-
-   if (data.user) { 
-    navigate("/login"); 
+    navigate("/login");
    }
   };
-
+  
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Logo */}
