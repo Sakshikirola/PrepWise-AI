@@ -178,11 +178,20 @@ export const StartInterview = () => {
        </div>
       </div>
 
-    <button onClick={handleStartInterview}
+    <button onClick={handleStartInterview} disabled={loading}
       className="w-full px-4 py-2 rounded-lg bg-[#3730A3] text-white text-lg flex gap-2 items-center justify-center font-bold mt-2 hover:bg-[#4338CA] active:scale-95 transition cursor-pointer"
     >
-      <span>Start Interview</span>
+      {loading ? (
+      <>
+      <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+      <span>Generating questions...</span>
+      </>
+      ) : (
+      <>
+      <span>Start Interview</span> 
       <ArrowRight />
+      </>
+      )}
     </button>
 
     </div>

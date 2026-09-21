@@ -5,6 +5,26 @@ import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
 
+async function generateWithRetry(params, retries = 4) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await ai.models.generateContent(params);
+    } catch (err) {
+      const status = err?.status || err?.error?.code;
+      const isRetryable = status === 503 || status === 429;
+
+      if (isRetryable && i < retries - 1) {
+        const delayMs = 1000 * (i + 1); // 1s, 2s, 3s
+        console.warn(`Gemini returned ${status}, retrying in ${delayMs}ms (attempt ${i + 1}/${retries})`);
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        continue;
+      }
+
+      throw err;
+    }
+  }
+}
+
 const app = express();
 app.use(cors());  
 app.use(express.json()); 
@@ -38,8 +58,8 @@ app.post("/api/generate-questions", async (req, res) => {
    - Do not include any other text.
    `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+    const response = await generateWithRetry({
+      model: "gemini-3.5-flash-lite",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -108,8 +128,8 @@ app.post("/api/evaluate-interview", async (req, res) => {
 - If an answer is empty, give it a very low score and explain that no answer was provided.
 `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+    const response = await generateWithRetry({
+      model: "gemini-3.5-flash-lite",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -122,8 +142,9 @@ app.post("/api/evaluate-interview", async (req, res) => {
   } catch (error) { 
     console.error("Evaluation Error:", error);
     res.status(500).json({
-      error: "Failed to evaluate interview",
-    });
+     error: error?.message || "Failed to evaluate interview",
+     status: error?.status || null,
+    }); 
   }
 });
 
