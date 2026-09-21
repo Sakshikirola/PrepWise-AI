@@ -7,7 +7,7 @@ The platform generates interview questions based on the user's selected topic, i
 ## 🌐 Live Demo
 
 🔗 **Live Website:**  
-https://prep-wise-7kuhdiz7j-sakshi-kirolas-projects.vercel.app/ 
+https://prep-wise-j9xguqkkt-sakshi-kirolas-projects.vercel.app/
 
 ## 📌 About the Project
 
