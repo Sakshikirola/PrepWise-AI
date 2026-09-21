@@ -16,6 +16,7 @@ export const Interview = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0);  
   const [answers, setAnswers] = useState(Array(selectedQuestions.length).fill("")); 
+  const [loading, setLoading] = useState(false);
   const currentAnswer = answers[currentQuestion] || ""; 
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -46,6 +47,7 @@ export const Interview = () => {
   }; 
 
   const handleFinish = async () => {
+    setLoading(true);
   const interviewData = { topic, interviewType, experience, questions: selectedQuestions, answers,
     timeTaken: elapsedTime,
   };
@@ -102,9 +104,10 @@ export const Interview = () => {
     state: {evaluation, topic, interviewType,experience,timeTaken: elapsedTime, },
     });
   } catch (error) {
-    console.error("Evaluation Error:", error);
-    console.error("Full Error:", error.message);
-    alert(error.message);
+    console.error(error);
+    alert("AI evaluation is temporarily unavailable. Please try again in a moment.");
+  }finally { 
+    setLoading(false);
   }
   }; 
 
@@ -196,10 +199,17 @@ export const Interview = () => {
           Skip
         </button>
 
-        <button onClick={handleNext}
-          className="px-6 py-2 rounded-lg bg-[#3730A3] text-white text-sm font-semibold hover:bg-[#4338CA] transition"
+        <button onClick={handleNext} disabled={loading}
+         className="px-6 py-2 rounded-lg bg-[#3730A3] text-white text-sm font-semibold hover:bg-[#4338CA] active:scale-95 transition cursor-pointer"
         >
-          {currentQuestion === selectedQuestions.length - 1? "Finish": "Next"}
+         {loading ? (
+         <span className="flex items-center gap-2">
+         <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+          Evaluating...
+         </span>
+         ) : (
+         currentQuestion === selectedQuestions.length - 1 ? "Finish" : "Next"
+         )}
         </button> 
       </div>
 

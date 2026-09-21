@@ -190,7 +190,7 @@ export const StartInterview = () => {
       <>
       <span>Start Interview</span> 
       <ArrowRight />
-      </>
+      </>  
       )}
     </button>
 
