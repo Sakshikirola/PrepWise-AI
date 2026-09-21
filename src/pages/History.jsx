@@ -7,7 +7,7 @@ const History = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState(""); 
   const [historyData, setHistoryData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const History = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-5">
+    <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-5 flex flex-col">
      <div className="flex items-center gap-3 mb-6">
       <button onClick={() => navigate(-1)}
        className="p-1 rounded-md mb-4 text-gray-300 hover:bg-gray-800 hover:text-white transition"
@@ -80,8 +80,8 @@ const History = () => {
      </div>
      </div>
 
-      <div className="max-w-7xl mx-auto bg-[#0B1220] border border-gray-800 rounded-xl p-4 sm:p-5">
-        <div className="flex flex-col sm:flex-row gap-3 mb-5">
+      <div className="w-full max-w-7xl mx-auto bg-[#0B1220] border border-gray-800 rounded-xl p-4 sm:p-5 lg:p-6">
+        <div className="flex flex-col sm:flex-row gap-3 mb-5 lg:mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input

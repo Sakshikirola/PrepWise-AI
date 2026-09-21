@@ -9,16 +9,16 @@ export const Hero = () => {
   const navigate = useNavigate();
   const [showFeatures, setShowFeatures] = useState(false);
   const [showPractice, setShowPractice] = useState(false); 
-
+ 
   return (
-    <div className='h-auto md:h-90 px-6 md:px-12 flex flex-col md:flex-row justify-between mt-6 text-white'>
-      {/* left section */}
+    <div className='h-auto md:h-90 lg:h-auto lg:flex lg:items-center px-6 md:px-12 flex flex-col md:flex-row justify-between mt-6 text-white'>
+      {/* left section */} 
       <div>
         <div className='bg-[#0B1220] py-2 px-3 text-sm rounded-2xl inline-flex items-center gap-2'>
           <Sparkles className='w-4 h-4 text-purple-600' fill='currentColor'/>
           <p>AI-Powered Interview Preparation</p>
         </div>
-        <h1 className='text-4xl md:text-6xl font-semibold mt-5'>Practice Smarter.</h1>
+        <h1 className='text-4xl md:text-6xl font-semibold mt-5'>Practice Smarter.</h1> 
         <h1 className='text-4xl md:text-6xl font-semibold mt-2'>
           Interview <span className='text-purple-600'>Better.</span>
         </h1>

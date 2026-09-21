@@ -5,7 +5,7 @@ import {Statecard} from "../components/Statecard";
 
 export const Landing = () => {
   return (
-    <div className="bg-black w-screen min-h-screen">
+    <div className="bg-black w-screen h-screen flex flex-col overflow-hidden">
       <Navbar/> 
       <Hero/>
       <Statecard/>

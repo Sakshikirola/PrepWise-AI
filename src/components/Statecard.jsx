@@ -3,13 +3,13 @@ import { Brain, Star, ChartNoAxesCombined, Clock3 } from "lucide-react";
 
 export const Statecard = () => {
   return (
-    <div className='flex flex-col md:flex-row px-6 md:px-8 text-white mt-2 gap-4'>
+    <div className='flex flex-col md:flex-row px-6 md:px-8 text-white mt-4 gap-4'>
       <div className='bg-[#0B1220] rounded-2xl flex-1 py-2 px-6'>
         <Brain className="w-6 h-6 text-purple-500" fill="currentColor"/>
         <h1>AI Generated Questions</h1>
         <p className='text-gray-400'>
           Get questions based on topics, roles and difficulty.
-        </p>
+        </p> 
       </div>
 
       <div className='bg-[#0B1220] rounded-2xl flex-1 py-2 px-6'>
