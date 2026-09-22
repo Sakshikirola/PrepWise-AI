@@ -106,9 +106,9 @@ export const Dashboard = () => {
   : "Complete more interviews to get recommendations";
 
   return (
-    <div className='bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden lg:h-screen lg:overflow-hidden'> 
+     <div className='bg-black w-full min-h-screen lg:h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-x-hidden flex flex-col'>
       {/* profile */}
-      <div className='flex justify-between text-white'> 
+      <div className='flex justify-between text-white shrink-0'>
        <div className='flex items-center gap-3'> 
         <button
          onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -131,7 +131,7 @@ export const Dashboard = () => {
       </div>
 
       {/* welcome */}
-      <div className='flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mt-4'>
+      <div className='flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mt-4 shrink-0'>
         <div> 
          <h1 className='text-xl font-bold text-white'>Welcome back, {userName}</h1>
          <p className='text-gray-400 text-md'>Let's continue your interview preparation</p>
@@ -146,7 +146,7 @@ export const Dashboard = () => {
       </div>
 
       {/* cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white mt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white mt-5 shrink-0">
         {[
           {
           title: "Total Interviews",
@@ -184,7 +184,7 @@ export const Dashboard = () => {
       </div> 
 
       {/* main content */} 
-      <div className='grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-4 mt-4 lg:h-[calc(100vh-260px)] lg:min-h-0'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-4 mt-4 lg:flex-1 lg:min-h-0'>
        {/* graph */}
        <div className="bg-[#0B1220] text-white rounded-xl p-6 w-full lg:h-full lg:min-h-0">
         <div className="flex justify-between items-center mb-3">

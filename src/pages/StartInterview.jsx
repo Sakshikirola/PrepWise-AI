@@ -62,9 +62,9 @@ export const StartInterview = () => {
   };
 
   return (
-    <div className='bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 overflow-hidden'>
+    <div className='bg-black w-full min-h-screen lg:h-screen px-4 sm:px-6 lg:px-8 py-3 flex flex-col overflow-y-auto'>
 
-      <div className='flex gap-3 text-white items-center'>
+      <div className='flex gap-3 text-white items-center shrink-0'>
         <button onClick={() => navigate(-1)}
           className="p-1 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white transition"
         >
@@ -73,6 +73,7 @@ export const StartInterview = () => {
         <h1 className='text-2xl font-bold'>Start New Interview</h1> 
       </div>
 
+     <div className='flex-1 flex flex-col justify-center'>
       {/* steps */}
       <div className='text-white flex py-2 items-center justify-center'>
        <div className="flex items-center gap-2">
@@ -193,7 +194,7 @@ export const StartInterview = () => {
       </>  
       )}
     </button>
-
+   </div>
     </div>
   )
 }

@@ -5,10 +5,12 @@ import {Statecard} from "../components/Statecard";
 
 export const Landing = () => {
   return (
-    <div className="bg-black w-screen h-screen flex flex-col overflow-hidden">
-      <Navbar/> 
-      <Hero/>
-      <Statecard/>
+    <div className="bg-black w-full min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1 flex flex-col justify-center">
+        <Hero />
+        <Statecard />  
+      </main>
     </div>
   );
-}; 
+};

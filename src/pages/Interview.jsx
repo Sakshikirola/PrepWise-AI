@@ -134,7 +134,7 @@ export const Interview = () => {
   };
 
   return (
-    <div className="bg-black w-full h-screen px-4 sm:px-6 lg:px-8 py-3 text-white flex flex-col overflow-hidden">
+    <div className="bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-3 text-white flex flex-col overflow-y-auto">
 
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">{topic} Interview</h1>
