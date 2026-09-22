@@ -9,7 +9,7 @@ export const Navbar = () => {
     <div className='py-3 px-8'>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className='flex items-center gap-2'>
-          <Sparkles className='w-6 h-6 text-purple-600' fill='currentColor'/>
+          <img src="/prepwise-logo.png" alt="PrepWise AI Logo" className="w-7 h-7 object-contain"/>
           <h1 className='text-2xl font-bold text-white'> PrepWise AI</h1>
         </div>
 
