@@ -58,8 +58,8 @@ export const Signup = () => {
     <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Logo */}
       <div className="px-8 py-4">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-purple-500" fill="currentColor"/> 
+        <div className="flex items-center">
+          <img src="/prepwise-logo.png" alt="PrepWise AI Logo" className="w-7 h-7 object-contain"/> 
           <h1 className="text-base font-semibold">PrepWise AI</h1>
         </div>
       </div>
