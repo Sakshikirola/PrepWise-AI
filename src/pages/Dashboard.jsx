@@ -222,7 +222,7 @@ export const Dashboard = () => {
         <h1 className="text-white text-lg font-semibold">Recent Interviews</h1>  
         <p onClick={() => navigate("/history")} className='text-sm font-semibold text-purple-600 cursor-pointer'>View All</p>  
        </div>  
-       <div className='space-y-4 overflow-y-auto pr-2 flex-1'>  
+       <div className='space-y-4 overflow-y-auto pr-2 flex-1 scrollbar-hide'>  
          {recentInterviews.map((interview) => (
           <div className="flex justify-between items-center" key={interview.id}>
           <div>
